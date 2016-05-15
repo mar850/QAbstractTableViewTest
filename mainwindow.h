@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "customsortfilterproxymodel.h"
+#include "basesortfilterproxymodel.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -21,6 +22,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     CustomSortFilterProxyModel *custom_sort_fileter_proxy_model;
+    BaseSortFilterProxyModel *base_sort_filter_proxy_model;
 };
 
 #endif // MAINWINDOW_H

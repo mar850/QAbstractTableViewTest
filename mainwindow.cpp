@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "historyelement.h"
 #include "basemodel.h"
-#include "basesortfilterproxymodel.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,7 +19,7 @@ MainWindow::~MainWindow()
 void MainWindow::init()
 {
     BaseModel *base_model = new BaseModel(this);
-    BaseSortFilterProxyModel *base_sort_filter_proxy_model = new BaseSortFilterProxyModel(this);
+    base_sort_filter_proxy_model = new BaseSortFilterProxyModel(this);
     base_sort_filter_proxy_model->setSourceModel(base_model);
     base_model->set_data();
     ui->orginal_tableView->setModel(base_sort_filter_proxy_model);
@@ -35,6 +34,7 @@ void MainWindow::init()
 
     custom_sort_fileter_proxy_model = new CustomSortFilterProxyModel(this);
     custom_sort_fileter_proxy_model->setSourceModel(base_model);
+    custom_sort_fileter_proxy_model->setDynamicSortFilter(true);
     ui->custom_tableView->horizontalHeader()->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->custom_tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->custom_tableView->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -51,7 +51,8 @@ void MainWindow::init()
 
 void MainWindow::on_filtr_pushButton_clicked()
 {
-    custom_sort_fileter_proxy_model->setFilterWildcard(ui->username_lineEdit->text());
-    custom_sort_fileter_proxy_model->setFilterKeyColumn(0);
+    base_sort_filter_proxy_model->setFilterFixedString(ui->username_lineEdit->text());
+    base_sort_filter_proxy_model->setFilterKeyColumn(0);
     custom_sort_fileter_proxy_model->setFilterFixedString(ui->username_lineEdit->text());
+    custom_sort_fileter_proxy_model->setFilterKeyColumn(0);
 }
